@@ -5,7 +5,7 @@ from load_key_from_config import getConfigKey
 newsAPIBaseURL = "https://bing-news-search1.p.rapidapi.com/news"
 
 news_keywords_list = ['news', 'information', 'report', 'update', 'bulletin', 'headlines', 'gossip']
-category_list = ['ScienceAndTechnology', 'business', 'entertainment', 'health', 'politics', 'products', 'scienceandtechnology', 'technology', 'science', 'sports', 'us', 'us_northeast', 'us_south', 'us_midwest', 'us_west', 'world', 'world_africa', 'world_americas', 'world_asia', 'world_europe', 'world_middleeast']
+category_list = ['business', 'entertainment', 'health', 'politics', 'products', 'scienceandtechnology', 'technology', 'science', 'sports', 'us', 'us_northeast', 'us_south', 'us_midwest', 'us_west', 'world', 'world_africa', 'world_americas', 'world_asia', 'world_europe', 'world_middleeast']
 
 
 def geteHeader():

@@ -2,6 +2,7 @@ import json
 from urllib import request
 import requests
 import pandas as pd
+from load_key_from_config import getConfigKey
 
 stock_keyword_list = ["stock", "trading", "stock price", "share price"]
 
@@ -16,7 +17,7 @@ def getStocks(company_name):
     url = f"https://realstonks.p.rapidapi.com/{ticker}"
 
     headers = {
-	    "X-RapidAPI-Key": "d1898a8e69msh518f9c5d0083e18p1af82ejsnbae3d87bc231",
+	    "X-RapidAPI-Key": getConfigKey("stocksAPI"),
 	    "X-RapidAPI-Host": "realstonks.p.rapidapi.com"
     }
 
