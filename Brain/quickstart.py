@@ -19,9 +19,7 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 
 def getFileContent(file_link):
     file_id = re.search('/file/d/([^/]+)', file_link).group(1)
-    """Shows basic usage of the Drive v3 API.
-    Prints the names and ids of the first 10 files the user has access to.
-    """
+    """Shows basic usage of the Drive v3 API."""
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first

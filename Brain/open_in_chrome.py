@@ -13,7 +13,8 @@ response_failure = "That dind't work. Please try again"
 
 def run_command(Nameofweb):
     Link = f"https://www.{Nameofweb}.com"
-    webbrowser.open(Link)
+    processed = webbrowser.open(Link)
+    print(processed)
 
 def processOpenQuery(Query):
     Query = str(Query).lower()

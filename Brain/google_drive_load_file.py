@@ -7,6 +7,7 @@ from load_key_from_config import getConfigKey
 
 summary_keywords = ['summarize', 'summary', 'research paper']
 
+#This method processes the query to summarize the text by extracting the link from the query
 def processSummaryRequest(text):
     link_regex = r"https://drive\.google\.com/file/d/\S+"
 
@@ -19,6 +20,7 @@ def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
         return infile.read()
 
+#This function is called with 2000 tokens to summarize the text presented to it
 def gpt3_completion(prompt, engine='text-davinci-002', temp=0.6, top_p=1.0, tokens=2000, freq_pen=0.25, pres_pen=0.0, stop=['<<END>>']):
     max_retry = 5
     retry = 0
@@ -40,17 +42,18 @@ def gpt3_completion(prompt, engine='text-davinci-002', temp=0.6, top_p=1.0, toke
             retry += 1
             if retry >= max_retry:
                 return "GPT3 error: %s" % oops
-            # print('Error communicating with OpenAI:', oops)
             sleep(1)    
+
 
 def getFileandSummarize(query):
     
+    #This method extracts text from file on the drive
     fileContent = getFileContent(query)
-
     chunks = textwrap.wrap(fileContent, 4000)
 
     result = list()
     count = 0
+    #Recursively summarize the text
     for chunk in chunks:
         count = count + 1
         prompt = open_file('Database/prompt.txt').replace('<<SUMMARY>>', chunk)

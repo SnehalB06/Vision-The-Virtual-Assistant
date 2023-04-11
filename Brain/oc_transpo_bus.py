@@ -10,6 +10,7 @@ bus_keyword = ["bus", "bus timing", "bus from", "next bus"]
 
 errorMessage = "Error occured while loading bus times, please try again"
 
+#The query string to get bus schedules is passed here
 def processBusRequest(text):
 
     # Use regular expressions with named groups to extract the locations
@@ -22,6 +23,7 @@ def processBusRequest(text):
         return(getBusSchedule(from_station, to_station))
     
     elif 'route' in text:
+        text = text.lower()
         pattern = r'route (\d+)'
         match = re.search(pattern, text)
         if match:
@@ -33,10 +35,7 @@ def processBusRequest(text):
 
             return getBusTimes(stopNo, route_number)
         
-    
-
-    
-
+#Source Station and Destination Station names are passed here and based on the available routes, the bus schedule is loaded
 def getBusSchedule(source, destination):
     df = pd.read_csv('Database/oc_transpo_stops.csv').set_index('Stations')
     stopNo = df.loc[source, 'StopNo']
@@ -61,6 +60,8 @@ def getBusSchedule(source, destination):
     else:
         return errorMessage
 
+#This method takes in Source Station number and the route number as parameters and based on both these parameters, the bus
+#Schedule is loaded
 def getBusTimes(stopNo, routeNo):
 
     apiKey = getConfigKey("ocTranspoAPI")
@@ -78,11 +79,4 @@ def getBusTimes(stopNo, routeNo):
     else:
         return errorMessage
         
-    
-
-
-
-# print(processBusRequest('what time does the route 97 bus leave Hurdman Station?'))
-
-
 

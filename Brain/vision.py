@@ -16,6 +16,12 @@ openai.api_key = getConfigKey("opanaiAPI")
 
 messages = [{"role": "system", "content": "You are a virtual assistant chatbot. Your name is Vision. You will help users with general queries."}]
 
+def getResponseFromChatGPT(messages):
+    response = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages = messages
+    )   
+    return response["choices"][0]["message"]["content"]
 
 def CustomChatGPT(user_input):
     messages.append({"role": "user", "content": user_input})
@@ -31,6 +37,11 @@ def CustomChatGPT(user_input):
         org_entities = [ent.text for ent in tokens if ent.label_ == 'ORG']
         if org_entities:
             chat_response = getStocks(org_entities[0])
+            if 'Error' in chat_response:
+                chat_response+=getResponseFromChatGPT(messages)
+        else:
+            chat_response = "Stock Price Could Not be loaded if you were looking for that.\nHere is an alternate response:\n"
+            chat_response+=getResponseFromChatGPT(messages)
 
     elif any(word in user_input for word in bus_keyword):
         chat_response = processBusRequest(user_input)
@@ -41,16 +52,14 @@ def CustomChatGPT(user_input):
     elif any(word in user_input for word in open_keyword_list):
         if any(word in user_input for word in applications_list):
             chat_response = processOpenQuery(user_input)
+        else:
+            chat_response = getResponseFromChatGPT(messages)
     
     elif any(word in user_input for word in summary_keywords):
         chat_response = processSummaryRequest(user_input)
 
     else:
-        response = openai.ChatCompletion.create(
-            model = "gpt-3.5-turbo",
-            messages = messages
-        )   
-        chat_response = response["choices"][0]["message"]["content"]
+        chat_response = getResponseFromChatGPT(messages)
 
     messages.append({"role": "assistant", "content": chat_response})
     return chat_response

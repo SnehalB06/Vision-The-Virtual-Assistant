@@ -16,15 +16,17 @@ def geteHeader():
     }
     return headers
 
+#If Query asks for trending topics, request is processed through this method
 def processTrendingRequest():
     url = f"{newsAPIBaseURL}/trendingtopics"
-    querystring = {"textFormat":"Raw","safeSearch":"Off"}
+    querystring = {"count":"10","textFormat":"Raw","safeSearch":"Off"}
     responseJSON = generateResponse(url, querystring, geteHeader())
     response = ""
     for news in responseJSON['value']:
         response+= news['query']['text'] + "\n\n"
     return response
 
+#If the query has a specific category based on the list above, news is fetched for that category
 def processCategoryRequest(category):
     url = newsAPIBaseURL
     querystring = {"count":"5","category":category,"safeSearch":"Off","textFormat":"Raw"}
@@ -37,6 +39,7 @@ def processCategoryRequest(category):
             response+= news['name'] + "\n"
     return response
 
+#Here the qeury string is passed for fetching the news
 def getNewsFromText(text):
     url = f"{newsAPIBaseURL}/search"
     querystring = {"q":text, "count":"5", "freshness":"Day","textFormat":"Raw","safeSearch":"Off"}
@@ -49,7 +52,7 @@ def getNewsFromText(text):
     else:
         return response
 
-
+#This method checks for keywords in the query and processes the request as per that
 def processNewsRequest(text):
     text = text.lower()
     response = ""
