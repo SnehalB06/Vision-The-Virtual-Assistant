@@ -8,6 +8,8 @@ baseAPIOCTranspo = "https://api.octranspo1.com/v2.0"
 
 bus_keyword = ["bus", "bus timing", "bus from", "next bus"]
 
+errorMessage = "Error occured while loading bus times, please try again"
+
 def processBusRequest(text):
 
     # Use regular expressions with named groups to extract the locations
@@ -46,15 +48,18 @@ def getBusSchedule(source, destination):
 
     response = requests.request("GET", ocTranspoAPI)
 
-    data = json.loads(response.text)
+    if response.status_code == 200:
+        data = json.loads(response.text)
 
-    baseResult = ""
+        baseResult = ""
 
-    for route in data['GetRouteSummaryForStopResult']['Routes']['Route']:
-        if(destination in route['RouteHeading']):
-            baseResult+= getBusTimes(stopNo, route['RouteNo'])
-    
-    return baseResult
+        for route in data['GetRouteSummaryForStopResult']['Routes']['Route']:
+            if(destination in route['RouteHeading']):
+                baseResult+= getBusTimes(stopNo, route['RouteNo'])
+
+        return baseResult
+    else:
+        return errorMessage
 
 def getBusTimes(stopNo, routeNo):
 
@@ -63,13 +68,15 @@ def getBusTimes(stopNo, routeNo):
 
     ocTranspoAPI = f"{baseAPIOCTranspo}/GetNextTripsForStop?appID={appId}&apiKey={apiKey}&stopNo={stopNo}&routeNo={routeNo}&format=JSON"
     response = requests.request("GET", ocTranspoAPI)
-
-    data = json.loads(response.text)
-    routeDetails = data['GetNextTripsForStopResult']['Route']['RouteDirection']
-    response = f"RouteNo: {routeDetails['RouteNo']}\nRoute Label: {routeDetails['RouteLabel']}\n"
-    for trip in routeDetails['Trips']['Trip']:
-        response+= f"Destination: {trip['TripDestination']}, StartTime: {trip['TripStartTime']}\n"
-    return response
+    if response.status_code == 200:
+        data = json.loads(response.text)
+        routeDetails = data['GetNextTripsForStopResult']['Route']['RouteDirection']
+        response = f"RouteNo: {routeDetails['RouteNo']}\nRoute Label: {routeDetails['RouteLabel']}\n"
+        for trip in routeDetails['Trips']['Trip']:
+            response+= f"Destination: {trip['TripDestination']}, StartTime: {trip['TripStartTime']}\n"
+        return response
+    else:
+        return errorMessage
         
     
 

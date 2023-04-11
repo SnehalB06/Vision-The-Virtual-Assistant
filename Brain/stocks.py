@@ -22,13 +22,17 @@ def getStocks(company_name):
 
     response = requests.request("GET", url, headers=headers)
 
-    data = json.loads(response.text)
-    # Extract the values of each constant
-    price = data["price"]
-    change_point = data["change_point"]
-    change_percentage = data["change_percentage"]
-    total_vol = data["total_vol"]
-    
-    details = f"Price of {ticker} is : {price}\nChange Point is : {change_point}\nChange Percentage is : {change_percentage}\nTotal Volume is : {total_vol}"
+    if response.status_code == 200:
 
-    return details
+        data = json.loads(response.text)
+        # Extract the values of each constant
+        price = data["price"]
+        change_point = data["change_point"]
+        change_percentage = data["change_percentage"]
+        total_vol = data["total_vol"]
+
+        details = f"Price of {ticker} is : {price}\nChange Point is : {change_point}\nChange Percentage is : {change_percentage}\nTotal Volume is : {total_vol}"
+
+        return details
+    else:
+        return "Error in loading stock details. Please try again."

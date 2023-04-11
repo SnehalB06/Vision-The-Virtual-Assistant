@@ -70,7 +70,7 @@ def processNewsRequest(text):
 def generateResponse(url, querystring, headers):
     response = requests.request("GET", url, headers=headers, params=querystring)
     if response.status_code != 200:
-        return "Error"
+        return "Error in loading news, please try again."
     responseJSON = json.loads(response.text)
     return responseJSON
 
