@@ -17,8 +17,8 @@ def processBusRequest(text):
     match = re.search(pattern, text)
 
     if match:
-        from_station = match.group('from_location')
-        to_station = match.group('to_location')
+        from_station = match.group('from_location').lower()
+        to_station = match.group('to_location').lower()
         return(getBusSchedule(from_station, to_station))
     
     elif 'route' in text:
@@ -54,7 +54,7 @@ def getBusSchedule(source, destination):
         baseResult = ""
 
         for route in data['GetRouteSummaryForStopResult']['Routes']['Route']:
-            if(destination in route['RouteHeading']):
+            if(destination in route['RouteHeading'].lower()):
                 baseResult+= getBusTimes(stopNo, route['RouteNo'])
 
         return baseResult
