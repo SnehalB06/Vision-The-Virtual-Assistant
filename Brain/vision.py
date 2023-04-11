@@ -7,7 +7,9 @@ from weather import weather_keyword_list, getWeather
 from stocks import stock_keyword_list, getStocks
 from oc_transpo_bus import bus_keyword, processBusRequest
 from news import news_keywords_list, processNewsRequest
+from open_in_chrome import open_keyword_list, applications_list, processOpenQuery
 from google_drive_load_file import summary_keywords, processSummaryRequest
+
 
 
 openai.api_key = getConfigKey("opanaiAPI")
@@ -35,6 +37,10 @@ def CustomChatGPT(user_input):
     
     elif any(word in user_input for word in news_keywords_list):
         chat_response = processNewsRequest(user_input)
+    
+    elif any(word in user_input for word in open_keyword_list):
+        if any(word in user_input for word in applications_list):
+            chat_response = processOpenQuery(user_input)
     
     elif any(word in user_input for word in summary_keywords):
         chat_response = processSummaryRequest(user_input)
