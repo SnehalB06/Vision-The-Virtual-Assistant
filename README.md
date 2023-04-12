@@ -20,7 +20,7 @@ python vision.py
   
   - [BingNewsSearch RaapidAPI](https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/bing-news-search1)
 
-## To Start working on the project, Start with
+## To Start working on the project:
 
 - For Text UI - Start from [vision.py](Brain/vision.py)
 
