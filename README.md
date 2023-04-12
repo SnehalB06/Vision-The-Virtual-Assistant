@@ -1,6 +1,13 @@
 # Vision-The-Virtual-Assistant
 ### Project for CSI5180 - Topics in AI: Virtual Assistants
 
+This Chatbot Can perform a range of operations such as:
+- Answee Questions
+- Get News based on categories, queries or topics
+- Get Bus Schedules from OC Transpo
+- Get information about stocks listed on NASDAQ
+- Summarize large PDF files on google drive
+
 ## To Download the project use:
 ```
 git clone https://github.com/shubhamkulk/Vision-The-Virtual-Assistant.git
