@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 from load_key_from_config import getConfigKey
 
-stock_keyword_list = ["stock", "trading", "stock price", "share price"]
+stock_keyword_list = ["Stock", "stock", "trading", "stock price", "share price"]
 
 def load_ticker(org_entity):
     try:
