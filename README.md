@@ -7,6 +7,7 @@ This Chatbot Can perform a range of operations such as:
 - Get Bus Schedules from OC Transpo
 - Get information about stocks listed on NASDAQ
 - Summarize large PDF files on google drive
+- Open websites in Chrome
 
 ## To Download the project use:
 ```
